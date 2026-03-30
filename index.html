@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390, initial-scale=1.0">
+<title>MediaNext TV</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:     #0C0C0E;
+    --card:   #131318;
+    --line:   #1E1E26;
+    --red:    #E83A3A;
+    --gold:   #C9974A;
+    --white:  #F0EDE8;
+    --muted:  #6B6870;
+    --dim:    #2A2A32;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    width: 390px;
+    margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── HERO ─────────────────────────────────── */
+  .hero {
+    position: relative;
+    height: 100svh;
+    min-height: 640px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 28px 52px;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(232,58,58,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,151,74,0.1) 0%, transparent 60%),
+      var(--bg);
+  }
+
+  /* subtle grid lines */
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
+  }
+
+  .hero-top {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    padding: 44px 28px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+  }
+
+  .live-pill {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(232,58,58,0.15);
+    border: 1px solid rgba(232,58,58,0.3);
+    border-radius: 100px;
+    padding: 5px 12px;
+  }
+  .live-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--red);
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .live-text { font-size: 10px; font-weight: 500; color: var(--red); letter-spacing: 1.5px; }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px; letter-spacing: 3px;
+    color: var(--white);
+  }
+  .logo span { color: var(--red); }
+
+  .hero-content { position: relative; z-index: 2; }
+
+  .hero-eyebrow {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); font-weight: 400;
+    margin-bottom: 16px;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px; line-height: 0.92;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .hero-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--gold);
+    font-size: 68px;
+  }
+
+  .hero-sub {
+    font-size: 13px; color: var(--muted);
+    font-weight: 300; line-height: 1.6;
+    margin-top: 20px;
+    max-width: 280px;
+  }
+
+  .hero-scroll {
+    margin-top: 36px;
+    display: flex; align-items: center; gap: 10px;
+    color: var(--muted); font-size: 11px; letter-spacing: 1px;
+  }
+  .hero-scroll-line {
+    width: 32px; height: 1px; background: var(--muted);
+  }
+
+  /* ─── SECTION BASE ─────────────────────────── */
+  section { padding: 64px 28px; }
+
+  .section-tag {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px; font-weight: 500;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-tag::before {
+    content: ''; display: block;
+    width: 20px; height: 1px; background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 44px; line-height: 0.95;
+    letter-spacing: 1px; color: var(--white);
+    margin-bottom: 32px;
+  }
+
+  /* ─── STÜDYO BÖLÜMÜ ─────────────────────────── */
+  .studio-section { background: var(--bg); padding-top: 0; }
+
+  .studio-hero-img {
+    width: calc(100% + 56px);
+    margin-left: -28px;
+    height: 240px;
+    background: var(--dim);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 48px;
+  }
+  .studio-hero-img::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(135deg, rgba(232,58,58,0.15) 0%, transparent 50%),
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 30px,
+        rgba(255,255,255,0.02) 30px,
+        rgba(255,255,255,0.02) 31px
+      );
+  }
+  .studio-hero-img::after {
+    content: 'MEDIANEXT TV STÜDYO';
+    position: absolute;
+    bottom: 20px; left: 20px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px; letter-spacing: 4px; color: rgba(255,255,255,0.25);
+  }
+
+  /* big stat */
+  .studio-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; margin-bottom: 36px;
+    border: 1px solid var(--line); border-radius: 12px;
+    overflow: hidden;
+  }
+  .stat {
+    background: var(--card);
+    padding: 20px 18px;
+  }
+  .stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px; color: var(--white);
+    line-height: 1;
+  }
+  .stat-val span { color: var(--red); }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  .studio-desc {
+    font-size: 14px; line-height: 1.75;
+    color: #9A9AA5; font-weight: 300;
+  }
+  .studio-desc strong { color: var(--white); font-weight: 500; }
+
+  /* ─── HİZMETLER ─────────────────────────────── */
+  .services-section { background: var(--bg); }
+
+  .service-list { display: flex; flex-direction: column; gap: 2px; }
+
+  .service-item {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 22px 20px;
+    display: flex; align-items: center; gap: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s;
+  }
+  .service-item::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--red);
+  }
+  .service-item:nth-child(2)::before { background: var(--gold); }
+  .service-item:nth-child(3)::before { background: #4ECDC4; }
+  .service-item:nth-child(4)::before { background: #A78BFA; }
+  .service-item:nth-child(5)::before { background: var(--red); }
+  .service-item:nth-child(6)::before { background: var(--gold); }
+  .service-item:nth-child(7)::before { background: #4ECDC4; }
+  .service-item:nth-child(8)::before { background: #A78BFA; }
+
+  .service-icon {
+    font-size: 24px;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--dim); border-radius: 10px;
+    flex-shrink: 0;
+  }
+  .service-text {}
+  .service-name {
+    font-size: 14px; font-weight: 500; color: var(--white);
+    margin-bottom: 2px;
+  }
+  .service-desc { font-size: 12px; color: var(--muted); font-weight: 300; }
+
+  /* ─── SETLER ─────────────────────────────────── */
+  .sets-section { background: var(--bg); padding-top: 0; }
+
+  .sets-grid { display: flex; flex-direction: column; gap: 12px; }
+
+  .set-card {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .set-img {
+    height: 130px;
+    background: var(--dim);
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .set-img-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px; letter-spacing: 3px;
+    color: rgba(255,255,255,0.08);
+  }
+  .set-img-accent {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .accent-red    { background: var(--red); }
+  .accent-gold   { background: var(--gold); }
+  .accent-teal   { background: #4ECDC4; }
+  .accent-purple { background: #A78BFA; }
+
+  .set-body { padding: 18px 18px 20px; }
+  .set-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: 1px;
+    color: var(--white); margin-bottom: 6px;
+  }
+  .set-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .set-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .tag {
+    font-size: 10px; padding: 3px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+  }
+
+  /* ─── KAPSAM ─────────────────────────────────── */
+  .scope-section { background: var(--card); }
+
+  .scope-grid { display: flex; flex-direction: column; gap: 1px; }
+  .scope-row {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: flex-start; gap: 14px;
+  }
+  .scope-row:last-child { border-bottom: none; }
+  .scope-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px; color: var(--red);
+    width: 22px; flex-shrink: 0; padding-top: 1px;
+  }
+  .scope-name { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 3px; }
+  .scope-sub  { font-size: 12px; color: var(--muted); font-weight: 300; }
+
+  /* ─── NEDEN ─────────────────────────────────── */
+  .why-section { background: var(--bg); }
+
+  .why-list { display: flex; flex-direction: column; gap: 24px; }
+  .why-item { display: flex; gap: 16px; align-items: flex-start; }
+  .why-icon {
+    font-size: 20px; flex-shrink: 0;
+    width: 40px; height: 40px;
+    background: var(--dim);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .why-title { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 4px; }
+  .why-desc  { font-size: 12px; color: var(--muted); line-height: 1.65; font-weight: 300; }
+
+  /* ─── KONUM ─────────────────────────────────── */
+  .location-section { background: var(--bg); padding-bottom: 0; }
+
+  .location-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .location-map {
+    height: 160px;
+    background: var(--dim);
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .map-pin { font-size: 36px; }
+  .location-map::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(232,58,58,0.15), transparent 70%);
+  }
+  .location-info { padding: 22px 20px; }
+  .location-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px; letter-spacing: 1px;
+    color: var(--white); margin-bottom: 10px;
+  }
+  .location-line {
+    font-size: 12px; color: var(--muted);
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 8px;
+  }
+  .location-line:last-child { margin-bottom: 0; }
+
+  /* ─── CTA ───────────────────────────────────── */
+  .cta-section {
+    background: var(--bg);
+    padding: 64px 28px 80px;
+    text-align: center;
+  }
+
+  .cta-eyebrow {
+    font-size: 11px; letter-spacing: 3px; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+
+  .cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px; line-height: 0.95;
+    color: var(--white); margin-bottom: 12px;
+  }
+  .cta-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic; color: var(--gold);
+  }
+
+  .cta-sub {
+    font-size: 13px; color: var(--muted);
+    margin-bottom: 36px; line-height: 1.6;
+  }
+
+  .cta-btn {
+    display: block;
+    background: var(--red);
+    color: #fff;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 28px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+
+  .cta-btn-outline {
+    display: block;
+    background: transparent;
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    padding: 14px 28px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+
+  .cta-socials {
+    margin-top: 32px;
+    display: flex; justify-content: center; gap: 28px;
+  }
+  .cta-social {
+    font-size: 11px; color: var(--muted);
+    text-decoration: none; letter-spacing: 1px;
+  }
+
+  /* ─── FOOTER ────────────────────────────────── */
+  footer {
+    background: var(--card);
+    border-top: 1px solid var(--line);
+    padding: 28px 28px 40px;
+    text-align: center;
+  }
+  footer .brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px; letter-spacing: 4px;
+    color: var(--muted); margin-bottom: 8px;
+  }
+  footer .brand span { color: var(--red); }
+  footer p { font-size: 10px; color: #3A3A44; margin-top: 4px; }
+
+  /* ─── ANIMATIONS ────────────────────────────── */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ─────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-top">
+    <div class="logo">MEDIA<span>NEXT</span> TV</div>
+    <div class="live-pill">
+      <div class="live-dot"></div>
+      <div class="live-text">LIVE</div>
+    </div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Ataşehir · İstanbul</div>
+    <div class="hero-title">
+      PRO<br>
+      <em>Stüdyo</em><br>
+      DENEYİMİ
+    </div>
+    <div class="hero-sub">İçerik üreticileri, markalar ve işletmeler için profesyonel prodüksiyon stüdyosu.</div>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      keşfet
+    </div>
+  </div>
+</div>
+
+<!-- ── STÜDYO ─────────────────────────────────── -->
+<section class="studio-section" style="padding: 0 0 64px;">
+  <div class="studio-hero-img"></div>
+  <div style="padding: 0 28px;">
+    <div class="section-tag reveal">Stüdyo</div>
+    <div class="section-title reveal">300 m²<br>PRO ALAN</div>
+
+    <div class="studio-stats reveal">
+      <div class="stat">
+        <div class="stat-val">300<span>m²</span></div>
+        <div class="stat-label">Net çekim alanı</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">3<span>.5m</span></div>
+        <div class="stat-label">Tavan yüksekliği</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">5000<span>K</span></div>
+        <div class="stat-label">Profesyonel ışık</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">4<span>+</span></div>
+        <div class="stat-label">Farklı set</div>
+      </div>
+    </div>
+
+    <p class="studio-desc reveal">
+      <strong>Anadolu Yakası'nın en donanımlı</strong> kiralık video stüdyosu. Hareketli akustik paneller, sonsuz beyaz fon ve esnek set düzeni ile her türlü projeye hazır.
+    </p>
+  </div>
+</section>
+
+<!-- ── HİZMETLER ──────────────────────────────── -->
+<section class="services-section">
+  <div class="section-tag reveal">Hizmetler</div>
+  <div class="section-title reveal">NELER<br>YAPIYORUZ</div>
+
+  <div class="service-list">
+    <div class="service-item reveal">
+      <div class="service-icon">📡</div>
+      <div class="service-text">
+        <div class="service-name">Canlı Yayın</div>
+        <div class="service-desc">YouTube, Instagram, Twitch — multi-kamera, rejisör, stream setup</div>
+      </div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-icon">🎙️</div>
+      <div class="service-text">
+        <div class="service-name">Podcast & Röportaj</div>
+        <div class="service-desc">Akustik ortam, profesyonel ses, video çekim</div>
+      </div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-icon">🎵</div>
+      <div class="service-text">
+        <div class="service-name">Müzik & Canlı Performans</div>
+        <div class="service-desc">Klip, akustik performans, sahne çekimleri</div>
+      </div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-icon">📦</div>
+      <div class="service-text">
+        <div class="service-name">Ürün & Obje Çekimi</div>
+        <div class="service-desc">Sonsuz beyaz fon, ürün videosu, e-ticaret içerikleri</div>
+      </div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-icon">🎬</div>
+      <div class="service-text">
+        <div class="service-name">Sosyal Medya İçeriği</div>
+        <div class="service-desc">YouTube, Reels, Shorts — planlamadan teslime</div>
+      </div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-icon">📺</div>
+      <div class="service-text">
+        <div class="service-name">Haber & Anons</div>
+        <div class="service-desc">Gündem, haber formatı, sohbet show çekimleri</div>
+      </div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-icon">🎞️</div>
+      <div class="service-text">
+        <div class="service-name">Belgesel & Biyografi</div>
+        <div class="service-desc">Sinematik anlatım, profesyonel kurgu</div>
+      </div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-icon">🏃</div>
+      <div class="service-text">
+        <div class="service-name">Spor & Sohbet</div>
+        <div class="service-desc">Spor programları, analiz yayınları, tartışma formatları</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SETLER ──────────────────────────────────── -->
+<section class="sets-section">
+  <div class="section-tag reveal">Set Seçenekleri</div>
+  <div class="section-title reveal">4 FARKLI<br>ATMOSFER</div>
+
+  <div class="sets-grid">
+    <div class="set-card reveal">
+      <div class="set-img">
+        <div class="set-img-label">BEYAZ</div>
+        <div class="set-img-accent accent-red"></div>
+      </div>
+      <div class="set-body">
+        <div class="set-name">Sonsuz Beyaz Fon</div>
+        <div class="set-desc">5000K ışık sistemi ile kusursuz beyaz zemin. Ürün, moda ve YouTube içerikleri için ideal.</div>
+        <div class="set-tags">
+          <span class="tag">Ürün çekimi</span>
+          <span class="tag">Moda</span>
+          <span class="tag">YouTube</span>
+          <span class="tag">Klip</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="set-card reveal">
+      <div class="set-img">
+        <div class="set-img-label">SİYAH</div>
+        <div class="set-img-accent accent-gold"></div>
+      </div>
+      <div class="set-body">
+        <div class="set-name">Siyah Perde Set</div>
+        <div class="set-desc">Dramatik, sinematik atmosfer. Sohbet showları, müzik performansları ve sahne çekimleri için.</div>
+        <div class="set-tags">
+          <span class="tag">Sohbet show</span>
+          <span class="tag">Müzik</span>
+          <span class="tag">Sahne</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="set-card reveal">
+      <div class="set-img">
+        <div class="set-img-label">AKUSTİK</div>
+        <div class="set-img-accent accent-teal"></div>
+      </div>
+      <div class="set-body">
+        <div class="set-name">Akustik Stüdyo</div>
+        <div class="set-desc">Hareketli akustik paneller ile sorunsuz ses ortamı. Podcast, röportaj ve sohbet programları.</div>
+        <div class="set-tags">
+          <span class="tag">Podcast</span>
+          <span class="tag">Röportaj</span>
+          <span class="tag">Ses kayıt</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="set-card reveal">
+      <div class="set-img">
+        <div class="set-img-label">ÖZEL</div>
+        <div class="set-img-accent accent-purple"></div>
+      </div>
+      <div class="set-body">
+        <div class="set-name">Özel Köşeler</div>
+        <div class="set-desc">Tasarlanmış dekoratif alanlar ve özel setup seçenekleri. İçeriğinize özgün bir atmosfer.</div>
+        <div class="set-tags">
+          <span class="tag">Sosyal medya</span>
+          <span class="tag">İçerik</span>
+          <span class="tag">Branding</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── KAPSAM ──────────────────────────────────── -->
+<section class="scope-section">
+  <div class="section-tag reveal">Tam Kapsamlı</div>
+  <div class="section-title reveal">BAŞTAN<br>SONA BİZ</div>
+
+  <div class="scope-grid">
+    <div class="scope-row reveal">
+      <div class="scope-num">01</div>
+      <div>
+        <div class="scope-name">Kanal Kurulumu</div>
+        <div class="scope-sub">YouTube & Instagram kanal stratejisi ve kurulumu</div>
+      </div>
+    </div>
+    <div class="scope-row reveal">
+      <div class="scope-num">02</div>
+      <div>
+        <div class="scope-name">Profesyonel Çekim</div>
+        <div class="scope-sub">Multi-kamera, rejisörlü, ışıklı prodüksiyon</div>
+      </div>
+    </div>
+    <div class="scope-row reveal">
+      <div class="scope-num">03</div>
+      <div>
+        <div class="scope-name">Kurgu & Montaj</div>
+        <div class="scope-sub">Renk, ses, grafik — tam post prodüksiyon</div>
+      </div>
+    </div>
+    <div class="scope-row reveal">
+      <div class="scope-num">04</div>
+      <div>
+        <div class="scope-name">Performans Analizi</div>
+        <div class="scope-sub">İçerik analizi ve büyüme stratejisi desteği</div>
+      </div>
+    </div>
+    <div class="scope-row reveal">
+      <div class="scope-num">05</div>
+      <div>
+        <div class="scope-name">Canlı Yayın Yönetimi</div>
+        <div class="scope-sub">Teknik direktör, stream setup, gerçek zamanlı yönetim</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NEDEN MEDIANEXT ─────────────────────────── -->
+<section class="why-section">
+  <div class="section-tag reveal">Fark</div>
+  <div class="section-title reveal">NEDEN<br>MEDIANEXT?</div>
+
+  <div class="why-list">
+    <div class="why-item reveal">
+      <div class="why-icon">📍</div>
+      <div>
+        <div class="why-title">Anadolu Yakası'nın İlk Tercihi</div>
+        <div class="why-desc">Ataşehir'de profesyonel kiralık stüdyo ihtiyacına en yakın çözüm. Kadıköy, Maltepe, Üsküdar'dan kolayca ulaşım.</div>
+      </div>
+    </div>
+    <div class="why-item reveal">
+      <div class="why-icon">🎯</div>
+      <div>
+        <div class="why-title">Her Proje İçin Doğru Set</div>
+        <div class="why-desc">Beyaz fon, siyah perde, akustik set ve özel köşeler — tek stüdyoda tüm format seçenekleri.</div>
+      </div>
+    </div>
+    <div class="why-item reveal">
+      <div class="why-icon">⚡</div>
+      <div>
+        <div class="why-title">Esnek Kullanım</div>
+        <div class="why-desc">Saatlik veya günlük kiralama. Bireysel içerik üreticisinden kurumsal markaya kadar her ölçekte hizmet.</div>
+      </div>
+    </div>
+    <div class="why-item reveal">
+      <div class="why-icon">🤝</div>
+      <div>
+        <div class="why-title">Sadece Stüdyo Değil</div>
+        <div class="why-desc">Çekim, montaj, canlı yayın, sosyal medya yönetimi — tek çatı altında komple prodüksiyon ortağı.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── KONUM ───────────────────────────────────── -->
+<section class="location-section">
+  <div style="padding: 0 0 64px;">
+    <div class="section-tag reveal">Konum</div>
+    <div class="section-title reveal">BİZE<br>ULAŞIN</div>
+    <div class="location-card reveal">
+      <div class="location-map">
+        <div class="map-pin">📍</div>
+      </div>
+      <div class="location-info">
+        <div class="location-name">MediaNext TV Stüdyo</div>
+        <div class="location-line">🏢 Barbaros Mh. Sütçü Yolu Cd. No:49</div>
+        <div class="location-line">📌 Ataşehir, İstanbul</div>
+        <div class="location-line">📞 0536 972 50 28</div>
+        <div class="location-line">🌐 medianext-tv.com</div>
+        <div class="location-line">📸 @medianexttv</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────── -->
+<section class="cta-section">
+  <div class="cta-eyebrow reveal">Çekime Hazır mısın?</div>
+  <div class="cta-title reveal">HAYDİ<br><em>Başlayalım</em></div>
+  <div class="cta-sub reveal">WhatsApp'tan bize ulaş, stüdyoyu gez, projeni anlat.</div>
+  <a class="cta-btn reveal" href="https://wa.me/905369725028">WhatsApp ile Yaz</a>
+  <a class="cta-btn-outline reveal" href="tel:05369725028">0536 972 50 28</a>
+  <div class="cta-socials reveal">
+    <a class="cta-social" href="https://instagram.com/medianexttv">@medianexttv</a>
+    <a class="cta-social" href="https://medianext-tv.com">medianext-tv.com</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────── -->
+<footer>
+  <div class="brand">MEDIA<span>NEXT</span> TV</div>
+  <p>MediaNext TV Prodüksiyon Hizmetleri Ltd. Şti.</p>
+  <p style="margin-top:8px">Ataşehir · İstanbul · 2025</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
